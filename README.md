@@ -1,2 +1,2 @@
 # FinalProjectRepo_Douglass_Skrajnowska
-Collaborative Repository being used for the EECE 2140 final project 2024. The goal of this project is to create a calculator with eight or more functions that is interactive and appears in the user interface.
+Collaborative Repository being used for the EECE 2140 final project 2024. The goal of this project is to create an interactive calculator with eight or more functions that appears in the user interface. This will be done using Python's built-in functions on top of imported libraries, including, but not limited to, Pygame and the math library. The installation and running of the project will be detailed later as more aspects are developed, mainly the user interface and graphics implementations. 
