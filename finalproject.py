@@ -1,4 +1,5 @@
 #Final Project
+import numpy as np
 
 class Calculator: #(for graphics)
     pass
@@ -33,4 +34,15 @@ class Complex_Operations(Simple_Operations):
         return number1**0.5
     
     @staticmethod
-   def trig
+    def sin(number1):
+       return np.sin(number1)
+   
+    @staticmethod
+    def cos(number1):
+        return np.cos(number1)
+    
+    @staticmethod
+    def tan(number1):
+        return np.tan(number1)
+    
+    
