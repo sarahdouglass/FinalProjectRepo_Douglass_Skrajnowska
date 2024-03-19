@@ -23,15 +23,19 @@ class Simple_Operations:
     def division(number1,number2):
         return number1 / number2
 
-class Complex_Operations(Simple_Operations):
+class Complex_Operations:
     
     @staticmethod
     def exponent(number1,number2):
         return number1 ** number2
     
     @staticmethod
-    def square(number1):
+    def square_root(number1):
         return number1**0.5
+    
+    @staticmethod
+    def square(number1):
+        return number1**2
     
     @staticmethod
     def sin(number1):
@@ -44,5 +48,7 @@ class Complex_Operations(Simple_Operations):
     @staticmethod
     def tan(number1):
         return np.tan(number1)
+    
+class Calc_Function: #clear, delete, history?
     
     
