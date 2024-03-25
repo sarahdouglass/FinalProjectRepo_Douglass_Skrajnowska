@@ -104,16 +104,16 @@ class Complex_Operations:
         return number1**2
     
     @staticmethod
-    def sin(number1):
-       return np.sin(number1)
+    def fact(number1):
+       return np.math.factorial(number1)
    
     @staticmethod
-    def cos(number1):
-        return np.cos(number1)
+    def natlog(number1):
+        return np.log(number1)
     
     @staticmethod
-    def tan(number1):
-        return np.tan(number1)
+    def log10(number1):
+        return np.log10(number1)
     
 <<<<<<< HEAD
     
