@@ -10,10 +10,19 @@ class App:
         self.label_var = tk.StringVar(value="0")
         self.box = Label(textvariable=self.label_var)
         
-        self.funcs = 'c^%/789*456-123+ 0.='
-        for i, b in enumerate(self.funcs):
-            Button(b, row = i//4+1, column = i%4)
-        
+        self.funcs = 'c^%/SCTL789*456-123+ 0.='
+        for i, b in enumerate(self.funcs):            
+            if b == "c": ClearButton(b, row = i//4+1, column = i%4)
+            elif b.isalpha(): 
+                if b == "S" : x = "sin"
+                elif b == "C": x = "cos"
+                elif b == "T": x = "tan"
+                elif b == "L": x = "log"
+                FuncButton(x, row = i//4+1, column = i%4)
+            elif b == "=": EqualsButton(b, row = i//4+1, column = i%4)
+            
+            else: Button(b, row = i//4+1, column = i%4)
+                    
     def run(self):
         self.root.mainloop()
         
@@ -25,8 +34,35 @@ class Button(ttk.Button):
         
     def counter(self):
         global app
-        x = str(app.label_var.get()) + str(self.text)
+        if (app.label_var.get() == "0"): x = self.text
+        else: x = str(app.label_var.get()) + str(self.text)
         app.label_var.set(x)
+
+class ClearButton(Button):
+    def __init__(self, text, row, column):
+        super().__init__(text, row, column)
+    def counter(self):
+        global app
+        x = "0"
+        app.label_var.set(x)
+        
+class FuncButton(Button):
+    def __init__(self, text, row, column):
+        super().__init__(text, row, column)
+    def counter(self):
+        global app
+        if (app.label_var.get() == "0"): x = self.text
+        else: x = str(app.label_var.get()) + str(self.text) + "("
+        app.label_var.set(x)
+        
+class EqualsButton(Button):
+    def __init__(self, text, row, column):
+        super().__init__(text, row, column)
+    def counter(self):
+        global app
+        x = "ANS"
+        app.label_var.set(x)
+
         
 class Label(tk.Label):
     def __init__(self, **kwargs):
@@ -36,22 +72,19 @@ class Label(tk.Label):
 
 
 class Simple_Operations:
-   
     @staticmethod
     def addition(number1,number2):
         return number1 + number2
-    
     @staticmethod
     def subtraction(number1,number2):
         return number1 - number2
-    
     @staticmethod
     def multiplication(number1,number2):
         return number1 * number2
-    
     @staticmethod
     def division(number1,number2):
-        return number1 / number2
+        if(number2 == 0): return "ERROR"
+        else: return number1 / number2
 
 class Complex_Operations:
     
@@ -84,6 +117,5 @@ def main():
     global app
     app = App()
     app.run()
-
 main()
     
