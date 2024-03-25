@@ -2,8 +2,8 @@ import tkinter as tk
 import tkinter.ttk as ttk
 import numpy as np
 
-<<<<<<< HEAD
-=======
+#<<<<<<< HEAD
+#=======
 class App:
     def __init__(self):
         self.root = tk.Tk()
@@ -72,7 +72,7 @@ class Label(tk.Label):
         super().__init__(relief='solid', **kwargs)
         self.grid(columnspan = 4)
 
->>>>>>> b5535ae39e3f32b5b9c2b787a907b3628a79861d
+#>>>>>>> b5535ae39e3f32b5b9c2b787a907b3628a79861d
 
 class Simple_Operations:
     @staticmethod
@@ -115,7 +115,7 @@ class Complex_Operations:
     def log10(number1):
         return np.log10(number1)
     
-<<<<<<< HEAD
+#<<<<<<< HEAD
     
 =======
 
@@ -124,5 +124,5 @@ def main():
     app = App()
     app.run()
 main()
->>>>>>> b5535ae39e3f32b5b9c2b787a907b3628a79861d
+#>>>>>>> b5535ae39e3f32b5b9c2b787a907b3628a79861d
     
