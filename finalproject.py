@@ -1,9 +1,6 @@
 #Final Project
 import numpy as np
 
-class Calculator: #(for graphics)
-    pass
-
 
 class Simple_Operations:
    
@@ -49,6 +46,5 @@ class Complex_Operations:
     def tan(number1):
         return np.tan(number1)
     
-class Calc_Function: #clear, delete, history?
     
     
