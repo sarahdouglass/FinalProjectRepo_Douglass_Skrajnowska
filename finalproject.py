@@ -79,37 +79,59 @@ def calculating(equation):
     
     while not isFloat(equation):
         if "(" in equation:
+            
             start_index = equation.index("(")
             end_index = start_index + equation[start_index:].index(")")
             sub_eq = equation[start_index + 1:end_index]
 
             if isFloat(sub_eq):
                 # Evaluate functions
-                func = equation[start_index - 3:start_index]
+                func = equation[start_index - 4:start_index]
                 if func.isalpha():
                     num = float(sub_eq)
-                    if func == "sin":
+                    if "sin" in func:
                         equation = equation.replace(equation[start_index:end_index + 1], str(op.sin(num)))
-                    elif func == "cos":
+                    elif "cos" in func:
                         equation = equation.replace(equation[start_index:end_index + 1], str(op.cos(num)))
-                    elif func == "tan":
+                    elif "tan" in func:
                         equation = equation.replace(equation[start_index:end_index + 1], str(op.tan(num)))
-                    elif func == "log":
+                    elif "log" in func:
                         equation = equation.replace(equation[start_index:end_index + 1], str(op.log(num)))
-                    elif func == "log":
-                        equation = equation.replace(equation[start_index:end_index + 1], str(op.log(num)))
-                    elif func == "sqrt":
+                    elif "ln" in func:
+                        equation = equation.replace(equation[start_index:end_index + 1], str(op.natlog(num)))
+                    elif "sqrt" in func:
                         equation = equation.replace(equation[start_index:end_index + 1], str(op.square_root(num)))
-                    elif func == "fact":
+                    elif "fact" in func:
                         equation = equation.replace(equation[start_index:end_index + 1], str(op.factorial(int(num))))
                 else:
                     # Process remaining part of equation
                     equation = equation[:start_index] + str(calculating(sub_eq)) + equation[end_index + 1:]
-
             else:
                 # Evaluate inner parentheses first
                 equation = equation[:start_index] + str(calculating(sub_eq)) + equation[end_index + 1:]
-
+        elif "^" in equation:
+            op_index = equation.index("^")
+            
+            leftSide = ""
+            rightSide = ""
+            
+            i = op_index - 1
+            while i >= 0 and equation[i].isdigit():
+                leftSide = equation[i] + leftSide
+                i -= 1
+            
+            i = op_index + 1
+            while i < len(equation) and equation[i].isdigit():
+                rightSide += equation[i]
+                i += 1
+            
+            result = op.exponent(float(leftSide), float(rightSide))
+            equation = equation[:i - len(rightSide) - 1] + str(result) + equation[i:]
+            
+            
+            
+            
+            
     return float(equation)
         
         
