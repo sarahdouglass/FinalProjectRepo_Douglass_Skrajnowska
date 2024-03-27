@@ -24,7 +24,6 @@ class App:
                 elif b == "L": x = "log"
                 FuncButton(x, row = i//4+1, column = i%4)
             elif b == "=": EqualsButton(b, row = i//4+1, column = i%4)
-            
             else: Button(b, row = i//4+1, column = i%4)
                     
     def run(self):
@@ -64,8 +63,7 @@ class EqualsButton(Button):
         super().__init__(text, row, column)
     def counter(self):
         global app
-        x = "ANS"
-        app.label_var.set(x)
+        app.label_var.set(calculating(app.label_var.get()))
 
 def isFloat(equation):
     try: 
@@ -126,8 +124,7 @@ def calculating(equation):
                 i += 1
             
             result = op.exponent(float(leftSide), float(rightSide))
-            equation = equation[:i - len(rightSide) - 1] + str(result) + equation[i:]
-            
+            equation = equation[:i - len(rightSide) - 1] + str(result) + equation[i:]          
         elif "*" in equation or "/" in equation:
             mul_index = equation.find("*")
             div_index = equation.find("/")
@@ -157,8 +154,7 @@ def calculating(equation):
             else: 
                 result = op.division(float(leftSide), float(rightSide))
                 
-            equation = equation[:i - len(rightSide) - 1] + str(result) + equation[i:]
-
+            equation = equation[:i - len(rightSide) - 2] + str(result) + equation[i:]
         elif "+" in equation or "-" in equation:
             add_index = equation.find("+")
             sub_index = equation.find("-")
@@ -172,7 +168,7 @@ def calculating(equation):
             operator = equation[op_index]
             leftSide = ""
             rightSide = ""
-            # Get left operand
+            
             i = op_index - 1
             while i >= 0 and equation[i].isdigit():
                 leftSide = equation[i] + leftSide
@@ -185,9 +181,9 @@ def calculating(equation):
                 
             if operator == "+":
                 result = op.addition(float(leftSide), float(rightSide))
-            else:  s
+            else:  
                 result = op.subtraction(float(leftSide), float(rightSide))
-            equation = equation[:i - len(rightSide) - 1] + str(result) + equation[i:]  
+            equation = equation[:i - len(rightSide) - 2] + str(result) + equation[i:]  
             
             
             
