@@ -11,7 +11,7 @@ class App:
         self.label_var = tk.StringVar(value="0")
         self.box = Label(textvariable=self.label_var)
         
-        self.funcs = 'c ^s%SCTLlF/789*456-123+ 0.='
+        self.funcs = 'c^s%SCT)LlF/789*456-123+ 0.='
         for i, b in enumerate(self.funcs):            
             if b == "c": ClearButton(b, row = i//4+1, column = i%4)
             elif b.isalpha(): 
@@ -55,8 +55,8 @@ class FuncButton(Button):
         super().__init__(text, row, column)
     def counter(self):
         global app
-        if (app.label_var.get() == "0"): x = self.text
-        else: x = str(app.label_var.get()) + str(self.text) + "("
+        if (app.label_var.get() == "0"): x = self.text + '('
+        else: x = str(app.label_var.get()) + str(self.text) + '('
         app.label_var.set(x)
         
 class EqualsButton(Button):
@@ -109,86 +109,6 @@ def calculating(equation):
             else:
                 # Evaluate inner parentheses first
                 equation = equation[:start_index] + str(calculating(sub_eq)) + equation[end_index + 1:]
-
-        elif "^" in equation:
-            op_index = equation.index("^")
-            
-            left_operand = ""
-            right_operand = ""
-            
-            i = op_index - 1
-            while i >= 0 and equation[i].isdigit():
-                left_operand = equation[i] + left_operand
-                i -= 1
-            
-            i = op_index + 1
-            while i < len(equation) and equation[i].isdigit():
-                right_operand += equation[i]
-                i += 1
-            
-            result = op.exponent(float(left_operand), float(right_operand))
-            equation = equation[:i - len(right_operand) - 1] + str(result) + equation[i:]
-
-        elif "*" in equation or "/" in equation:
-            mul_index = equation.find("*")
-            div_index = equation.find("/")
-            if mul_index == -1:
-                op_index = div_index
-            elif div_index == -1:
-                op_index = mul_index
-            else:
-                op_index = min(mul_index, div_index)
-
-            operator = equation[op_index]
-            left_operand = ""
-            right_operand = ""
-            
-            i = op_index - 1
-            while i >= 0 and equation[i].isdigit():
-                left_operand = equation[i] + left_operand
-                i -= 1
-            
-            i = op_index + 1
-            while i < len(equation) and equation[i].isdigit():
-                right_operand += equation[i]
-                i += 1
-            
-            if operator == "*":
-                result = op.multiplication(float(left_operand), float(right_operand))
-            else: 
-                result = op.division(float(left_operand), float(right_operand))
-                
-            equation = equation[:i - len(right_operand) - 1] + str(result) + equation[i:]
-
-        elif "+" in equation or "-" in equation:
-            add_index = equation.find("+")
-            sub_index = equation.find("-")
-            if add_index == -1:
-                op_index = sub_index
-            elif sub_index == -1:
-                op_index = add_index
-            else:
-                op_index = min(add_index, sub_index)
-
-            operator = equation[op_index]
-            left_operand = ""
-            right_operand = ""
-            # Get left operand
-            i = op_index - 1
-            while i >= 0 and equation[i].isdigit():
-                left_operand = equation[i] + left_operand
-                i -= 1
-            # Get right operand
-            i = op_index + 1
-            while i < len(equation) and equation[i].isdigit():
-                right_operand += equation[i]
-                i += 1
-            # Perform addition or subtraction
-            if operator == "+":
-                result = op.addition(float(left_operand), float(right_operand))
-            else:  # operator == "-"
-                result = op.subtraction(float(left_operand), float(right_operand))
-            equation = equation[:i - len(right_operand) - 1] + str(result) + equation[i:]
 
     return float(equation)
         
