@@ -243,7 +243,7 @@ class Simple_Operations:
             return 1
         else:
             return number * Simple_Operations.factorial(number - 1)
-    
+
 
 def main():
     global app
