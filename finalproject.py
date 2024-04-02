@@ -10,7 +10,7 @@ class App:
         
         self.label_var = tk.StringVar(value="0")
         self.box = Label(textvariable=self.label_var)
-        
+    
         self.funcs = 'c^%/SCTL789*456-123+ 0.='
         for i, b in enumerate(self.funcs):            
             if b == "c": ClearButton(b, row = i//4+1, column = i%4)
