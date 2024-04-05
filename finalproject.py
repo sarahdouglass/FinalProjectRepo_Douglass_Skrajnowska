@@ -45,6 +45,7 @@ class App:
     def run(self):
         self.root.mainloop()
 
+#=============================================================================
 
 class Button(ttk.Button):
     def __init__(self, text, row, column, **kwargs):
@@ -60,6 +61,7 @@ class Button(ttk.Button):
             x = str(app.label_var.get()) + str(self.text)
         app.label_var.set(x)
 
+#=============================================================================
 
 class ClearButton(Button):
     def __init__(self, text, row, column):
@@ -70,6 +72,7 @@ class ClearButton(Button):
         x = "0"
         app.label_var.set(x)
 
+#=============================================================================
 
 class FuncButton(Button):
     def __init__(self, text, row, column):
@@ -82,6 +85,8 @@ class FuncButton(Button):
         else:
             x = str(app.label_var.get()) + str(self.text) + '('
         app.label_var.set(x)
+
+#=============================================================================
 
 class DelButton(Button):
     def __init__(self, text, row, column):
@@ -101,6 +106,7 @@ class EqualsButton(Button):
         global app
         app.label_var.set(calculating(app.label_var.get()))
 
+#=============================================================================
 
 def isFloat(equation):
     try:
@@ -109,6 +115,7 @@ def isFloat(equation):
     except ValueError:
         return False
 
+#=============================================================================
 
 def calculating(equation):
     op = Simple_Operations()
@@ -236,6 +243,7 @@ def calculating(equation):
 
     return float(equation)
 
+#=============================================================================
 
 class Label(tk.Label):
     def __init__(self, **kwargs):
@@ -243,6 +251,7 @@ class Label(tk.Label):
         super().__init__(relief='solid', **kwargs)
         self.grid(columnspan=4)
 
+#=============================================================================
 
 class Simple_Operations:
     @staticmethod
@@ -295,6 +304,7 @@ class Simple_Operations:
         else:
             return number * Simple_Operations.factorial(number - 1)
 
+#=============================================================================
 
 def main():
     global app
