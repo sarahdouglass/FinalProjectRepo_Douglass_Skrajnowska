@@ -1,8 +1,11 @@
 # COMMENTS TO BE ADDED AFTER CODE STARTS WORKING
+#Trig and logs still dont work
+
 import tkinter as tk
 import tkinter.ttk as ttk
 import numpy as np
 import math as m
+
 
 class App:
     def __init__(self):
@@ -12,11 +15,13 @@ class App:
         self.label_var = tk.StringVar(value="0")
         self.box = Label(textvariable=self.label_var)
 
-        self.funcs = 'c^s%SCT)LlF/789*456-123+ 0.='
+        self.funcs = 'c^s(SCT)LlF/789*456-123+d0.='
         for i, b in enumerate(self.funcs):
             if b == "c":
                 ClearButton(b, row=i // 4 + 1, column=i % 4)
-            elif b.isalpha():
+            elif b == 'd':
+                DelButton('del', row=i // 4 + 1, column=i % 4)
+            elif b.isalpha() and b!= 'd':
                 if b == "S":
                     x = "sin"
                 elif b == "C":
@@ -49,7 +54,7 @@ class Button(ttk.Button):
 
     def counter(self):
         global app
-        if (app.label_var.get() == "0"):
+        if app.label_var.get() == "0":
             x = self.text
         else:
             x = str(app.label_var.get()) + str(self.text)
@@ -72,13 +77,22 @@ class FuncButton(Button):
 
     def counter(self):
         global app
-        if (app.label_var.get() == "0"):
+        if app.label_var.get() == "0":
             x = self.text + '('
         else:
             x = str(app.label_var.get()) + str(self.text) + '('
         app.label_var.set(x)
 
-
+class DelButton(Button):
+    def __init__(self, text, row, column):
+        super().__init__(text, row, column)
+    def counter(self):
+        global app
+        if app.label_var.get() == "0":
+            x = app.label_var.get()
+        else:
+            x = str(app.label_var.get())[:-1]
+            app.label_var.set(x)
 class EqualsButton(Button):
     def __init__(self, text, row, column):
         super().__init__(text, row, column)
@@ -102,7 +116,6 @@ def calculating(equation):
     while not isFloat(equation):
 
         if "(" in equation:
-            print('found (')
             start_index = equation.index("(")
             end_index = start_index + equation[start_index:].index(")")
             sub_eq = calculating(equation[start_index + 1:end_index])
@@ -114,22 +127,26 @@ def calculating(equation):
                 else:
                     start = start_index - 4
                 func = equation[start:start_index]
-                if func.isalpha():
-                    num = float(sub_eq)
-                    if "sin" in func:
-                        equation = equation.replace(equation[start_index-3:end_index + 1], str(m.sin(num)))
-                    elif "cos" in func:
-                        equation = equation.replace(equation[start_index-3:end_index + 1], str(m.cos(num)))
-                    elif "tan" in func:
-                        equation = equation.replace(equation[start_index-3:end_index + 1], str(m.tan(num)))
-                    elif "log" in func:
-                        equation = equation.replace(equation[start_index-3:end_index + 1], str(m.log(num)))
-                    elif "ln" in func:
-                        equation = equation.replace(equation[start_index-2:end_index + 1], str(op.natlog(num)))
-                    elif "sqrt" in func:
-                        equation = equation.replace(equation[start_index-4:end_index + 1], str(op.square_root(num)))
-                    elif "fact" in func:
-                        equation = equation.replace(equation[start_index-4:end_index + 1], str(op.factorial(int(num))))
+                if len(func) > 3:
+                    if func[0].isalpha() or func[1].isalpha() or func[2].isalpha() or func[3].isalpha() or func[4].isalpha():
+                        num = float(sub_eq)
+                        if "sin" in func:
+                            equation = equation.replace(equation[start_index - 3:end_index + 1], str(m.sin(num)))
+                        elif "cos" in func:
+                            equation = equation.replace(equation[start_index - 3:end_index + 1], str(m.cos(num)))
+                        elif "tan" in func:
+                            equation = equation.replace(equation[start_index - 3:end_index + 1], str(m.tan(num)))
+                        elif "log" in func:
+                            equation = equation.replace(equation[start_index - 3:end_index + 1], str(m.log(num)))
+                        elif "ln" in func:
+                            equation = equation.replace(equation[start_index - 2:end_index + 1], str(op.natlog(num)))
+                        elif "sqrt" in func:
+                            equation = equation.replace(equation[start_index - 4:end_index + 1], str(op.square_root(num)))
+                        elif "fact" in func:
+                            equation = equation.replace(equation[start_index - 4:end_index + 1],
+                                                        str(op.factorial(int(num))))
+                    else:
+                        equation = equation[:start_index] + str(calculating(sub_eq)) + equation[end_index + 1:]
                 else:
                     # Process remaining part of equation
                     equation = equation[:start_index] + str(calculating(sub_eq)) + equation[end_index + 1:]
@@ -153,7 +170,7 @@ def calculating(equation):
                 i += 1
 
             result = op.exponent(float(leftSide), float(rightSide))
-            equation = str(equation[:start+1] if start > 0 else '') + str(result) + equation[i:]
+            equation = str(equation[:start + 1] if start > 0 else '') + str(result) + equation[i:]
 
         elif "*" in equation or "/" in equation:
             mul_index = equation.find("*")
@@ -170,20 +187,19 @@ def calculating(equation):
             rightSide = ""
 
             i = op_index - 1
-            while i >= 0 and equation[i].isdigit() or equation[i] == '.':
+            while i >= 0 and (equation[i].isdigit() or equation[i] == '.' or equation[i] == "-"):
                 leftSide = equation[i] + leftSide
                 i -= 1
             start = i
             i = op_index + 1
-            while i <= len(equation) - 1 and (equation[i].isdigit() or equation[i] == '.'):
+            while i <= len(equation) - 1 and (equation[i].isdigit() or equation[i] == '.' or equation[i] == "-"):
                 rightSide += equation[i]
                 i += 1
-            print('eq:',equation,'ls:',leftSide,'rs:',rightSide)
             if operator == "*":
                 result = op.multiplication(float(leftSide), float(rightSide))
             else:
                 result = op.division(float(leftSide), float(rightSide))
-            equation = str(equation[:start+1] if start > 0 else '') + str(result) + equation[i:]
+            equation = str(equation[:start + 1] if start > 0 else '') + str(result) + equation[i:]
         elif "+" in equation or "-" in equation:
             add_index = equation.find("+")
             sub_index = equation.find("-")
@@ -191,38 +207,32 @@ def calculating(equation):
                 op_index = sub_index
             elif sub_index == -1:
                 op_index = add_index
+            elif sub_index == 0:
+                op_index = add_index
             else:
                 op_index = min(add_index, sub_index)
-
             operator = equation[op_index]
             leftSide = ""
             rightSide = ""
 
             i = op_index - 1
-            while i >= 0 and (equation[i].isdigit() or equation[i] == "."):
+            while i >= 0 and (equation[i].isdigit() or equation[i] == "." or equation[i] == "-"):
                 leftSide = equation[i] + leftSide
                 i -= 1
 
-
             i = op_index + 1
-            while i < len(equation) and (equation[i].isdigit() or equation[i] == "."):
+            while i < len(equation) and (equation[i].isdigit() or equation[i] == "." or equation[i] == "-"):
                 rightSide += equation[i]
                 i += 1
-
 
             if operator == "+":
                 result = op.addition(float(leftSide), float(rightSide))
             else:
                 result = op.subtraction(float(leftSide), float(rightSide))
 
-
-            #THIS WAS CHANGED # ( I left it like this so it would error and you could easily find it)
             equation = (equation[:(op_index - len(leftSide))]) + str(result) + (equation[i:])
             if equation[-2:] == ".0":
                 equation = equation[:-2]
-
-            #END OF CHANGES
-
 
     return float(equation)
 
