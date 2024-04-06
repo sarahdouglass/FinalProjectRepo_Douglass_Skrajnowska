@@ -15,35 +15,84 @@ class App:
         self.label_var = tk.StringVar(value="0")
         self.box = Label(textvariable=self.label_var)
 
-        self.funcs = 'c^s(SCT)LlF/789*456-123+d0.='
-        for i, b in enumerate(self.funcs):
-            if b == "c":
-                ClearButton(b, row=i // 4 + 1, column=i % 4)
-            elif b == 'd':
-                DelButton('del', row=i // 4 + 1, column=i % 4)
-            elif b.isalpha() and b!= 'd':
-                if b == "S":
-                    x = "sin"
-                elif b == "C":
-                    x = "cos"
-                elif b == "T":
-                    x = "tan"
-                elif b == "s":
-                    x = "sqrt"
-                elif b == "l":
-                    x = "ln"
-                elif b == "F":
-                    x = "fact"
-                elif b == "L":
-                    x = "log"
-                FuncButton(x, row=i // 4 + 1, column=i % 4)
-            elif b == "=":
-                EqualsButton(b, row=i // 4 + 1, column=i % 4)
-            else:
-                Button(b, row=i // 4 + 1, column=i % 4)
+        #self.funcs = 'c^s(SCT)LlF/789*456-123+d0.='
+        
+        
+        
+        self.funcs = [('c', 'C'), ('^', '^'), ('%', '%'), ('L', ' '),
+                      ('S', ' '), ('C', ' '), ('T', ' '), ('/', '/'),
+                      ('7', '7'), ('8', '8'), ('9', '9'), ('*', '*'),
+                      ('4', '4'), ('5', '5'), ('6', '6'), ('-', '-'),
+                      ('1', '1'), ('2', '2'), ('3', '3'), ('+', '+'),
+                      ('d', '<BackSpace>'), ('0', '0'), ('.', '.'), ('=', '<Return>')]
+        
+        self.buttons = {}
+       
+            
+        for i, (b, key) in enumerate(self.funcs):
+           if b == "c":
+              self.buttons[b] = ClearButton(b, row=i//4+1, column=i%4)
+              self.root.bind(key, self.key_press)
+           elif b == 'd':
+               self.buttons[b] = DelButton(b, row=i//4+1, column=i%4)
+               self.root.bind(key, self.key_press)
+           elif b == "=":
+               self.buttons[b] = EqualsButton(b, row=i//4+1, column=i%4)
+               self.root.bind(key, self.key_press)
+           else:
+               if b == "S":
+                   x = "sin"
+               elif b == "C":
+                   x = "cos"
+               elif b == "T":
+                   x = "tan"
+               elif b == "s":
+                   x = "sqrt"
+               elif b == "L":
+                   x = "ln"
+               elif b == "l":
+                   x = "log"
+               elif b == "F":
+                   x = "!"
+               else:
+                   x = b
+               self.buttons[b] = Button(x, row=i//4+1, column=i%4)
+               
+               if(key != ' '):
+                   self.root.bind(key, self.key_press)
 
     def run(self):
+        print(self.buttons.keys())
         self.root.mainloop()
+        
+        
+        def key_press(self, event):
+            if event.keysym == 'C':
+                self.label_var.set('0')
+            elif event.keysym == '^':
+                self.label_var.set(self.label_var.get() + '^')
+            elif event.keysym == '%':
+                self.label_var.set(self.label_var.get() + '%')
+            elif event.keysym == '/':
+                self.label_var.set(self.label_var.get() + '/')
+            elif event.keysym == '*':
+                self.label_var.set(self.label_var.get() + '*')
+            elif event.keysym == '-':
+                self.label_var.set(self.label_var.get() + '-')
+            elif event.keysym == '+':
+                self.label_var.set(self.label_var.get() + '+')
+            elif event.keysym == '.':
+                self.label_var.set(self.label_var.get() + '.')
+            elif event.keysym == 'Space':
+                self.label_var.set(self.label_var.get() + ' ')
+            elif event.keysym == 'BackSpace':
+                if app.label_var.get() != "0":
+                    x = str(app.label_var.get())[:-1]
+                    app.label_var.set(x)
+            elif event.keysym == 'Return':
+                self.calculate()
+            else:
+                self.label_var.set(self.label_var.get() + event.char)
 
 #=============================================================================
 
@@ -74,19 +123,6 @@ class ClearButton(Button):
 
 #=============================================================================
 
-class FuncButton(Button):
-    def __init__(self, text, row, column):
-        super().__init__(text, row, column)
-
-    def counter(self):
-        global app
-        if app.label_var.get() == "0":
-            x = self.text + '('
-        else:
-            x = str(app.label_var.get()) + str(self.text) + '('
-        app.label_var.set(x)
-
-#=============================================================================
 
 class DelButton(Button):
     def __init__(self, text, row, column):
@@ -98,6 +134,9 @@ class DelButton(Button):
         else:
             x = str(app.label_var.get())[:-1]
             app.label_var.set(x)
+            
+#=============================================================================
+ 
 class EqualsButton(Button):
     def __init__(self, text, row, column):
         super().__init__(text, row, column)
@@ -178,7 +217,6 @@ def calculating(equation):
 
             result = op.exponent(float(leftSide), float(rightSide))
             equation = str(equation[:start + 1] if start > 0 else '') + str(result) + equation[i:]
-
         elif "*" in equation or "/" in equation:
             mul_index = equation.find("*")
             div_index = equation.find("/")
@@ -303,6 +341,18 @@ class Simple_Operations:
             return 1
         else:
             return number * Simple_Operations.factorial(number - 1)
+        
+    @staticmethod
+    def sin(number1):
+       return np.sin(number1)
+   
+    @staticmethod
+    def cos(number1):
+        return np.cos(number1)
+    
+    @staticmethod
+    def tan(number1):
+        return np.tan(number1)
 
 #=============================================================================
 
