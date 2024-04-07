@@ -4,7 +4,6 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 import numpy as np
-import math as m
 
 class App:
     def __init__(self):
