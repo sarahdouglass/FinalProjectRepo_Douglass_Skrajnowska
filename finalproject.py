@@ -6,8 +6,6 @@ import tkinter.ttk as ttk
 import numpy as np
 import math as m
 
-specFuncs = ("sin", "cos" "tan","log", "ln", "!")
-
 
 class App:
     def __init__(self):
@@ -17,8 +15,11 @@ class App:
         self.label_var = tk.StringVar(value="0")
         self.box = Label(textvariable=self.label_var)
 
+        #self.funcs = 'c^s(SCT)LlF/789*456-123+d0.='
         
-        self.funcs = [('c', 'c'), ('^', '^'), ('%', '%'), ('L', ' '),
+        
+        
+        self.funcs = [('c', 'C'), ('^', '^'), ('%', '%'), ('L', ' '),
                       ('S', ' '), ('C', ' '), ('T', ' '), ('/', '/'),
                       ('7', '7'), ('8', '8'), ('9', '9'), ('*', '*'),
                       ('4', '4'), ('5', '5'), ('6', '6'), ('-', '-'),
@@ -32,7 +33,7 @@ class App:
            if b == "c":
               self.buttons[b] = ClearButton(b, row=i//4+1, column=i%4)
               self.root.bind(key, self.key_press)
-           elif b == 'del':
+           elif b == 'd':
                self.buttons[b] = DelButton(b, row=i//4+1, column=i%4)
                self.root.bind(key, self.key_press)
            elif b == "=":
@@ -61,6 +62,7 @@ class App:
                    self.root.bind(key, self.key_press)
 
     def run(self):
+        print(self.buttons.keys())
         self.root.mainloop()
         
         
@@ -94,9 +96,11 @@ class App:
                         x = str(eq)[:-3]
                 else:
                     x = str(eq)[:-1]
+                    
             if x == "":
                 x = "0"
-            self.label_var.set(str(x))  
+                
+            self.label_var.set(str(x))   
         elif event.keysym == 'Return':
             self.calculate()
         else:
@@ -131,26 +135,27 @@ class ClearButton(Button):
 
 #=============================================================================
 
+
 class DelButton(Button):
     def __init__(self, text, row, column):
         super().__init__(text, row, column)
     def counter(self):
-        global app
-        eq = app.label_var.get()
-        if eq != "0":
-            if eq[-1].isalpha():
-                subEq = eq[-3:]
-                if "ln" in subEq:
-                    x = str(eq)[:-2]
-                else:
-                    x = str(eq)[:-3]
-            else:
-                x = str(eq)[:-1]
-                
-        if x == "":
-            x = "0"
-            
-        app.label_var.set(str(x))               
+       global app
+       eq = app.label_var.get()
+       if eq != "0":
+           if eq[-1].isalpha():
+               subEq = eq[-3:]
+               if "ln" in subEq:
+                   x = str(eq)[:-2]
+               else:
+                   x = str(eq)[:-3]
+           else:
+               x = str(eq)[:-1]
+               
+       if x == "":
+           x = "0"
+           
+       app.label_var.set(str(x))   
             
 #=============================================================================
  
