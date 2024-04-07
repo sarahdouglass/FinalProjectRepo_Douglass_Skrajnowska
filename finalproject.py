@@ -6,7 +6,6 @@ import tkinter.ttk as ttk
 import numpy as np
 import math as m
 
-
 class App:
     def __init__(self):
         self.root = tk.Tk()
@@ -40,14 +39,8 @@ class App:
                    x = "cos"
                elif b == "T":
                    x = "tan"
-               elif b == "s":
-                   x = "sqrt"
                elif b == "L":
-                   x = "ln"
-               elif b == "l":
                    x = "log"
-               elif b == "F":
-                   x = "!"
                else:
                    x = b
                self.buttons[b] = Button(x, row=i//4+1, column=i%4)
@@ -83,17 +76,11 @@ class App:
             eq = self.label_var.get()
             if eq != "0":
                 if eq[-1].isalpha():
-                    subEq = eq[-3:]
-                    if "ln" in subEq:
-                        x = str(eq)[:-2]
-                    else:
-                        x = str(eq)[:-3]
+                    x = str(eq)[:-3]
                 else:
-                    x = str(eq)[:-1]
-                    
+                    x = str(eq)[:-1] 
             if x == "":
                 x = "0"
-                
             self.label_var.set(str(x))   
         elif event.keysym == 'Return':
             self.calculate()
@@ -138,17 +125,11 @@ class DelButton(Button):
        eq = app.label_var.get()
        if eq != "0":
            if eq[-1].isalpha():
-               subEq = eq[-3:]
-               if "ln" in subEq:
-                   x = str(eq)[:-2]
-               else:
-                   x = str(eq)[:-3]
+               x = str(eq)[:-3]
            else:
-               x = str(eq)[:-1]
-               
+               x = str(eq)[:-1]    
        if x == "":
            x = "0"
-           
        app.label_var.set(str(x))   
             
 #=============================================================================
@@ -175,47 +156,37 @@ def isFloat(equation):
 def calculating(equation):
     op = Simple_Operations()
     i = 0
+    funcs = ("sin", "cos" "tan","log")
     while not isFloat(equation):
-
-        if "(" in equation:
-            start_index = equation.index("(")
-            end_index = start_index + equation[start_index:].index(")")
-            sub_eq = calculating(equation[start_index + 1:end_index])
-
-            if isFloat(sub_eq):
-                # Evaluate functions
-                if start_index - 4 < 0:
-                    start = 0
-                else:
-                    start = start_index - 4
-                func = equation[start:start_index]
-                if len(func) > 3:
-                    if func[0].isalpha() or func[1].isalpha() or func[2].isalpha() or func[3].isalpha() or func[4].isalpha():
-                        num = float(sub_eq)
-                        if "sin" in func:
-                            equation = equation.replace(equation[start_index - 3:end_index + 1], str(m.sin(num)))
-                        elif "cos" in func:
-                            equation = equation.replace(equation[start_index - 3:end_index + 1], str(m.cos(num)))
-                        elif "tan" in func:
-                            equation = equation.replace(equation[start_index - 3:end_index + 1], str(m.tan(num)))
-                        elif "log" in func:
-                            equation = equation.replace(equation[start_index - 3:end_index + 1], str(m.log(num)))
-                        elif "ln" in func:
-                            equation = equation.replace(equation[start_index - 2:end_index + 1], str(op.natlog(num)))
-                        elif "sqrt" in func:
-                            equation = equation.replace(equation[start_index - 4:end_index + 1], str(op.square_root(num)))
-                        elif "fact" in func:
-                            equation = equation.replace(equation[start_index - 4:end_index + 1],
-                                                        str(op.factorial(int(num))))
-                    else:
-                        equation = equation[:start_index] + str(calculating(sub_eq)) + equation[end_index + 1:]
-                else:
-                    # Process remaining part of equation
-                    equation = equation[:start_index] + str(calculating(sub_eq)) + equation[end_index + 1:]
-            else:
-                # Evaluate inner parentheses first
-                equation = equation[:start_index] + str(calculating(sub_eq)) + equation[end_index + 1:]
-        elif "^" in equation:
+        for func in funcs:
+           if func in equation:
+               start = equation.index(func)
+               end = start + len(func)
+               
+               if(equation[start -1].isalnum()):                                #so you can multiply without putting * (only applies for functions)
+                   equation = equation[:start] + "*" + equation[start:]
+               
+               num = ""
+               i = end
+               while i < len(equation) and (equation[i].isdigit() or equation[i] == '.'):
+                   num += equation[i]
+                   i += 1
+                   
+                   
+               if func == "sin":                    #sin works
+                   result = op.sin(float(num))  
+               elif func == "cos":
+                   result = op.cos(float(num))
+               elif func == "tan":
+                   result = op.tan(float(num))
+               elif func == "log":                  #log works
+                   result = op.log(float(num))
+               
+               equation = equation[:start] + str(result) + equation[i:]
+            
+                       
+                
+        if "^" in equation:
             op_index = equation.index("^")
 
             leftSide = ""
@@ -331,44 +302,38 @@ class Simple_Operations:
     def exponent(number1, number2):
         return number1 ** number2
 
-    @staticmethod
-    def square_root(number1):
-        return number1 ** 0.5
 
     @staticmethod
-    def square(number1):
-        return number1 ** 2
+    def log(number1):
+        if number1 < 0:
+            return np.log10(number1)
+        else: 
+            return "ERROR"
 
-    @staticmethod
-    def fact(number1):
-        return np.math.factorial(number1)
-
-    @staticmethod
-    def natlog(number1):
-        return np.log(number1)
-
-    @staticmethod
-    def log10(number1):
-        return np.log10(number1)
-
-    @staticmethod
-    def factorial(number):
-        if number == 0:
-            return 1
-        else:
-            return number * Simple_Operations.factorial(number - 1)
         
     @staticmethod
     def sin(number1):
-       return np.sin(number1)
+       try:
+           ans = np.sin(number1)
+           return ans
+       except ValueError:
+           return "ERROR"
    
     @staticmethod
     def cos(number1):
-        return np.cos(number1)
+        try:
+            ans = np.cos(number1)
+            return ans
+        except ValueError:
+            return "ERROR"
     
     @staticmethod
     def tan(number1):
-        return np.tan(number1)
+        try:
+            ans = np.tan(number1)
+            return ans
+        except ValueError:
+            return "ERROR"
 
 #=============================================================================
 
