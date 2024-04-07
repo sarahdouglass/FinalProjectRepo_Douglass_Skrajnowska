@@ -4,7 +4,7 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 import numpy as np
-import math as m
+
 
 class App:
     def __init__(self):
@@ -26,7 +26,7 @@ class App:
            if b == "c":
               self.buttons[b] = ClearButton(b, row=i//4+1, column=i%4)
               self.root.bind(key, self.key_press)
-           elif b == 'd':
+           elif b == 'del':
                self.buttons[b] = DelButton(b, row=i//4+1, column=i%4)
                self.root.bind(key, self.key_press)
            elif b == "=":
