@@ -155,54 +155,51 @@ def isFloat(equation):
 
 def calculating(equation):
     op = Simple_Operations()
-    i = 0
-    funcs = ("sin", "cos" "tan","log")
+    
     while not isFloat(equation):
+        funcs = ("sin", "cos", "tan", "log")
         for func in funcs:
-           if func in equation:
-               start = equation.index(func)
-               end = start + len(func)
-               
-               if(equation[start -1].isalnum()):                                #so you can multiply without putting * (only applies for functions)
-                   equation = equation[:start] + "*" + equation[start:]
-               
-               num = ""
-               i = end
-               while i < len(equation) and (equation[i].isdigit() or equation[i] == '.'):
-                   num += equation[i]
-                   i += 1
-                   
-                   
-               if func == "sin":                    #sin works
-                   result = op.sin(float(num))  
-               elif func == "cos":
-                   result = op.cos(float(num))
-               elif func == "tan":
-                   result = op.tan(float(num))
-               elif func == "log":                  #log works
-                   result = op.log(float(num))
-               
-               equation = equation[:start] + str(result) + equation[i:]
-            
-                       
+            if func in equation:
+                start = equation.index(func)
+                end = start + len(func)
                 
+                if equation[start - 1].isalnum():  # so you can multiply without putting * (only applies for functions)
+                    equation = equation[:start] + "*" + equation[start:]
+
+                num = ""
+                i = end
+                while i < len(equation) and (equation[i].isdigit() or equation[i] == '.'):
+                    num += equation[i]
+                    i += 1
+
+                if func == "sin":
+                    result = op.sin(float(num))
+                elif func == "cos":
+                    result = op.cos(float(num))
+                elif func == "tan":
+                    result = op.tan(float(num))
+                elif func == "log":
+                    result = op.log(float(num))
+
+                equation = equation[:start] + str(result) + equation[i:]
+
         if "^" in equation:
             op_index = equation.index("^")
 
-            leftSide = ""
-            rightSide = ""
+            left_side = ""
+            right_side = ""
 
             i = op_index - 1
             while i >= 0 and equation[i].isdigit():
-                leftSide = equation[i] + leftSide
+                left_side = equation[i] + left_side
                 i -= 1
             start = i
             i = op_index + 1
             while i < len(equation) and equation[i].isdigit():
-                rightSide += equation[i]
+                right_side += equation[i]
                 i += 1
 
-            result = op.exponent(float(leftSide), float(rightSide))
+            result = op.exponent(float(left_side), float(right_side))
             equation = str(equation[:start + 1] if start > 0 else '') + str(result) + equation[i:]
         elif "*" in equation or "/" in equation:
             mul_index = equation.find("*")
@@ -215,22 +212,22 @@ def calculating(equation):
                 op_index = min(mul_index, div_index)
 
             operator = equation[op_index]
-            leftSide = ""
-            rightSide = ""
+            left_side = ""
+            right_side = ""
 
             i = op_index - 1
             while i >= 0 and (equation[i].isdigit() or equation[i] == '.' or equation[i] == "-"):
-                leftSide = equation[i] + leftSide
+                left_side = equation[i] + left_side
                 i -= 1
             start = i
             i = op_index + 1
             while i <= len(equation) - 1 and (equation[i].isdigit() or equation[i] == '.' or equation[i] == "-"):
-                rightSide += equation[i]
+                right_side += equation[i]
                 i += 1
             if operator == "*":
-                result = op.multiplication(float(leftSide), float(rightSide))
+                result = op.multiplication(float(left_side), float(right_side))
             else:
-                result = op.division(float(leftSide), float(rightSide))
+                result = op.division(float(left_side), float(right_side))
             equation = str(equation[:start + 1] if start > 0 else '') + str(result) + equation[i:]
         elif "+" in equation or "-" in equation:
             add_index = equation.find("+")
@@ -244,29 +241,30 @@ def calculating(equation):
             else:
                 op_index = min(add_index, sub_index)
             operator = equation[op_index]
-            leftSide = ""
-            rightSide = ""
+            left_side = ""
+            right_side = ""
 
             i = op_index - 1
             while i >= 0 and (equation[i].isdigit() or equation[i] == "." or equation[i] == "-"):
-                leftSide = equation[i] + leftSide
+                left_side = equation[i] + left_side
                 i -= 1
 
             i = op_index + 1
             while i < len(equation) and (equation[i].isdigit() or equation[i] == "." or equation[i] == "-"):
-                rightSide += equation[i]
+                right_side += equation[i]
                 i += 1
 
             if operator == "+":
-                result = op.addition(float(leftSide), float(rightSide))
+                result = op.addition(float(left_side), float(right_side))
             else:
-                result = op.subtraction(float(leftSide), float(rightSide))
+                result = op.subtraction(float(left_side), float(right_side))
 
-            equation = (equation[:(op_index - len(leftSide))]) + str(result) + (equation[i:])
+            equation = (equation[:(op_index - len(left_side))]) + str(result) + (equation[i:])
             if equation[-2:] == ".0":
                 equation = equation[:-2]
 
     return float(equation)
+
 
 #=============================================================================
 
