@@ -1,3 +1,6 @@
+## GUI Calculator
+Calculator displayed and used in the user interface.
+
 # General Overview
 Collaborative Repository being used for the EECE 2140 final project 2024. The goal of this project is to create an interactive calculator with ten or more functions that appears in the user interface (GUI). This will be done using Python's built-in functions on top of imported libraries, including, but not limited to, Tkinter, Tkinter.ttk, NumpPy, and Math. When the program is run, a calculator GUI is successfully displayed, and the user can perform a multitude of different calculations and actions (addition, multiplication, trigonometry, delete, clear, and more).
 # User Guide
