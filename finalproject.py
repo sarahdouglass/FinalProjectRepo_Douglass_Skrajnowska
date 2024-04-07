@@ -303,11 +303,15 @@ def calculating(equation):
 
     return float(equation)
 
+#=============================================================================
+
 class Label(tk.Label):
     def __init__(self, **kwargs):
         global app
         super().__init__(relief='solid', **kwargs)
         self.grid(columnspan=4)
+
+#=============================================================================
 
 class Simple_Operations:
     @staticmethod
@@ -373,6 +377,8 @@ class Simple_Operations:
     @staticmethod
     def tan(number1):
         return np.tan(number1)
+
+#=============================================================================
 
 def main():
     global app
