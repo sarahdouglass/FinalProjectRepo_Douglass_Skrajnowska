@@ -15,10 +15,6 @@ class App:
         self.label_var = tk.StringVar(value="0")
         self.box = Label(textvariable=self.label_var)
 
-        #self.funcs = 'c^s(SCT)LlF/789*456-123+d0.='
-        
-        
-        
         self.funcs = [('c', 'C'), ('^', '^'), ('%', '%'), ('L', ' '),
                       ('S', ' '), ('C', ' '), ('T', ' '), ('/', '/'),
                       ('7', '7'), ('8', '8'), ('9', '9'), ('*', '*'),
@@ -27,8 +23,6 @@ class App:
                       ('del', '<BackSpace>'), ('0', '0'), ('.', '.'), ('=', '<Return>')]
         
         self.buttons = {}
-       
-            
         for i, (b, key) in enumerate(self.funcs):
            if b == "c":
               self.buttons[b] = ClearButton(b, row=i//4+1, column=i%4)
