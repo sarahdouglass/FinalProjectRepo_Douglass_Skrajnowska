@@ -11,6 +11,7 @@ The GitHub repository was set up and tested to ensure problems would not be run 
 Going forward, the goals for further developing this project include customizing the interface with different colors, fonts, and dimensions. Fixing the error cases is the top priority, but formatting is also an important part of any project. Finding a way to use parenthesis in the trigonometric and logarithmic functions to make the program cleaner and more in line with an actual calculator is on the debugging docket as well.
 ## Contributors
 Sarah Douglass: Git Username @sarahdouglass
+
 Zofia Skraynowska: Git Username @zoskr
 ## References
 * Tkinter: https://docs.python.org/3/library/tkinter.html
