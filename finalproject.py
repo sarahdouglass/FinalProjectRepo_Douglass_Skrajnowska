@@ -195,7 +195,7 @@ def calculating(equation):
                 i -= 1
             start = i
             i = op_index + 1
-            while i < len(equation) and equation[i].isdigit():
+            while i <= len(equation) - 1 and (equation[i].isdigit() or equation[i] == '.' or equation[i] == ''):
                 right_side += equation[i]
                 i += 1
 
@@ -221,7 +221,7 @@ def calculating(equation):
                 i -= 1
             start = i
             i = op_index + 1
-            while i <= len(equation) - 1 and (equation[i].isdigit() or equation[i] == '.' or equation[i] == "-"):
+            while i <= len(equation) - 1 and (equation[i].isdigit() or equation[i] == '.' or (equation[i] == "-" and equation[i-1].isdigit() != True)):
                 right_side += equation[i]
                 i += 1
             if operator == "*":
@@ -342,5 +342,4 @@ def main():
 
 
 main()
-
     
