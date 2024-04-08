@@ -234,7 +234,11 @@ def calculating(equation):
             start = i
             i = op_index + 1
             while i <= len(equation) - 1 and (equation[i].isdigit() or equation[i] == '.' or equation[i] == ''):
+
                 rightSide += equation[i]
+
+                right_side += equation[i]
+
                 i += 1
 
             result = op.exponent(float(leftSide), float(rightSide))
@@ -386,7 +390,3 @@ def main():
     app.run()
 
 main()
-<<<<<<< HEAD
-=======
-    
->>>>>>> e949a7c1c7093345498557cb727ab91e822db517
