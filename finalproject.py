@@ -58,7 +58,6 @@ class App:
                 if(key != ' '):
                     self.root.bind(key, self.key_press)
             
-
     # Run the application
     def run(self):
         self.root.mainloop()
@@ -169,7 +168,7 @@ def isFloat(equation):
         return True
     except ValueError:
         return False
-
+    
 #=============================================================================
 
 def calculating(equation):
@@ -234,10 +233,7 @@ def calculating(equation):
             start = i
             i = op_index + 1
             while i <= len(equation) - 1 and (equation[i].isdigit() or equation[i] == '.' or equation[i] == ''):
-
                 rightSide += equation[i]
-
-                right_side += equation[i]
 
                 i += 1
 
@@ -264,7 +260,7 @@ def calculating(equation):
             start = i
             i = op_index + 1
             while i <= len(equation) - 1 and (equation[i].isdigit() or equation[i] == '.' or (equation[i] == "-" and equation[i-1].isdigit() != True)):
-                right_side += equation[i]
+                rightSide += equation[i]
                 i += 1
             if operator == "*":
                 result = op.multiplication(float(leftSide), float(rightSide))
@@ -307,15 +303,11 @@ def calculating(equation):
 
     return float(equation)
 
-#=============================================================================
-
 class Label(tk.Label):
     def __init__(self, **kwargs):
         global app
         super().__init__(relief='solid', **kwargs)
         self.grid(columnspan=4)
-
-#=============================================================================
 
 class Simple_Operations:
     @staticmethod
@@ -381,8 +373,6 @@ class Simple_Operations:
     @staticmethod
     def tan(number1):
         return np.tan(number1)
-
-#=============================================================================
 
 def main():
     global app
