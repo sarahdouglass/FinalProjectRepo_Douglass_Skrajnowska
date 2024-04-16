@@ -277,7 +277,6 @@ def calculating(equation):
             while i <= len(equation) - 1 and (equation[i].isdigit() or equation[i] == '.' or equation[i] == '' or (equation[i] == "-" and equation[i+1].isdigit() and '-' in rightSide == False)):
                 rightSide += equation[i]
                 i += 1
-            print(rightSide, "^", leftSide)
             #calculate the result of exponent
             result = op.exponent(float(leftSide), float(rightSide))
             #replace the exponent operation with the result
@@ -329,6 +328,10 @@ def calculating(equation):
                 op_index = add_index
             elif sub_index == 0:
                 op_index = add_index
+            elif sub_index - 1 == '':
+                sub_eq = equation[sub_index + 1:]
+                sub_index = equation.find("-")
+                op_index = min(add_index, sub_index)
             else:
                 op_index = min(add_index, sub_index)
             operator = equation[op_index]
